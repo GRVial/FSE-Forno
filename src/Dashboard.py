@@ -49,7 +49,7 @@ class Dashboard(threading.Thread):
                 sendByte("enviaEFun", self.funcionamento)
             if com == codigos["cancela"]:
                 self.funcionamento = False
-                sendByte("enviaEFun", 0)
+                sendByte("enviaEFun", self.funcionamento)
             if com == codigos["menu"]:
                 if self.modo:
                     self.modo = False
@@ -58,6 +58,8 @@ class Dashboard(threading.Thread):
                     self.modo = True
                     sendByte("enviaModo", 1)
             # sleep(0.5)
+        sendByte("enviaESis", 0)
+        sendByte("enviaEFun", 0)
         closeSerial()
 
     def kill_thread(self):

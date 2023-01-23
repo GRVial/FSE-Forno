@@ -20,7 +20,7 @@ class Menu(Thread):
             print("[2] Mudar Referencia")
             print(f"Temperatura Interna: {self.db.tempI}")
             print(f"Temperatura de Referencia: {self.db.tempR}")
-            print(f"Temperatura Externa: {self.db.tempE}")
+            print(f"Temperatura Ambiente: {self.db.tempE}")
             op = input()
             if op == "1":
                 kp, ki, kd = [float(i) for i in input("Digite: <Kp Ki Kd>").split()]

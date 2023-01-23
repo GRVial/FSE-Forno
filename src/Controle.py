@@ -61,6 +61,8 @@ class Controle(threading.Thread):
                 self.ventoinha.ChangeDutyCycle(self.sinal_ventoinha)
                 sendInt("enviaContr", int(pid_out))
                 sleep(5)
+        self.resistor.ChangeDutyCycle(0.0)
+        self.ventoinha.ChangeDutyCycle(0.0)
         GPIO.cleanup()
 
     def kill_thread(self):

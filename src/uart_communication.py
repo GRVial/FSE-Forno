@@ -2,14 +2,13 @@ import struct
 import serial
 from crc import calcula_CRC
 
-# matr = b"\x04\x00\x03\x02"
 matr = b"\x04\x00\x03\x02"
 codigos = {
     "tempInt": struct.pack("BBB", 0x01, 0x23, 0xC1) + matr,
     "tempRef": struct.pack("BBB", 0x01, 0x23, 0xC2) + matr,
     "leComando": struct.pack("BBB", 0x01, 0x23, 0xC3) + matr,
     "enviaContr": struct.pack("BBB", 0x01, 0x16, 0xD1) + matr,
-    "enviaRefer": struct.pack("BBB", 0x01, 0x16, 0xD2) + matr,
+    "enviaRef": struct.pack("BBB", 0x01, 0x16, 0xD2) + matr,
     "enviaESis": struct.pack("BBB", 0x01, 0x16, 0xD3) + matr,
     "enviaModo": struct.pack("BBB", 0x01, 0x16, 0xD4) + matr,
     "enviaEFun": struct.pack("BBB", 0x01, 0x16, 0xD5) + matr,
@@ -71,7 +70,7 @@ def getFloat(code: str) -> float:
     try:
         dataR = struct.unpack("<BBBfH", dataR)
     except struct.error:
-        print("Struct error")
+        # print("Struct error")
         return getFloat(code)
     return dataR[-2]
 
@@ -88,18 +87,16 @@ def getInt(code: str) -> int:
     dataR = ser.readline()
 
     while verifyCRC(dataR):
-        print(f"Erro: {dataR}")
+        # print(f"Erro: {dataR}")
         ser.write(dataS)
         dataR = ser.readline()
     try:
         dataR = struct.unpack("<BBBiH", dataR)
     except struct.error:
-        print("Struct error")
+        # print("Struct error")
         return getInt(code)
     return dataR[-2]
 
 
 def closeSerial():
     ser.close()
-
-getInt('tempInt')

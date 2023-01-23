@@ -12,29 +12,30 @@ class Dashboard(threading.Thread):
     tempR: float
     tempI: float
     tempE: float
+    kill: bool
 
     def __init__(self):
         super().__init__()
-        self.sistema = True
-        self.funcionamento = True
+        self.sistema = False
+        self.funcionamento = False
         self.modo = False
         self.tempR = 0.0
         self.tempI = 0.0
         self.tempE = 0.0
-        # self.event = event
-        sendByte("enviaESis", 1)
-        sendByte("enviaEFun", 1)
+        self.kill = False
+        sendByte("enviaESis", 0)
+        sendByte("enviaEFun", 0)
         sendByte("enviaModo", 0)
         i2c = board.I2C()
         self.bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c, 0x76)
 
     def run(self):
-        while True:
-            # if self.event.is_set():
-            #     closeSerial()
-            #     break
+        while not self.kill:
             com = getInt("leComando")
-            self.tempR = getFloat("tempRef")
+            if not self.modo:
+                self.tempR = getFloat("tempRef")
+            else:
+                sendFloat("enviaRef", self.tempR)
             self.tempI = getFloat("tempInt")
             self.tempE = self.bme280.temperature
             if com == codigos["liga"]:
@@ -57,3 +58,7 @@ class Dashboard(threading.Thread):
                     self.modo = True
                     sendByte("enviaModo", 1)
             # sleep(0.5)
+        closeSerial()
+
+    def kill_thread(self):
+        self.kill = True

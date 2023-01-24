@@ -14,7 +14,7 @@ def write_log(temp_int, temp_ref, temp_ext, sinal_v, sinal_r):
             )
     with open("log.csv", "a", encoding="UTF8") as f:
         f.write(
-            f'{datetime.now().strftime("%d/%m/%Y %H:%M:%S")},{temp_int:.2f},{temp_ref:.2f},{temp_ext:.2f},{sinal_v},{sinal_r}\n'
+            f'{datetime.now().strftime("%d/%m/%Y %H:%M:%S")},{temp_int:.2f},{temp_ref:.2f},{temp_ext:.2f},{sinal_v:.2f},{sinal_r:.2f}\n'
         )
 
 
